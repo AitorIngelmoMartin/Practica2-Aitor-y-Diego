@@ -62,3 +62,7 @@ end
 
     R1 = sqrt(lambda*d1.*d2/d); %Altura del primer rayo de Fresnel
     uve = sqrt(2)*despejamiento./R1;
+
+    %Porcentaje despejamiento
+    FZ1 = despejamiento./R1;
+    FZ1min = FZ1(3);
