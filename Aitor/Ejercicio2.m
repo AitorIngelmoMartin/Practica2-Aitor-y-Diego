@@ -1,7 +1,7 @@
 clear;close all;clc;
 
 f      = 5800e6;
-c      =3e8;
+c      = 3e8;
 lambda = c/f;
 
 % Alturas, distancia y radio en metros
@@ -41,8 +41,7 @@ despejamiento_iterado = zeros(numero_iteraciones(2),columnas(2));
 uve_iterado           = zeros(numero_iteraciones(2),columnas(2));
 Ldif_iterado          = zeros(numero_iteraciones(2),columnas(2));
 
-for iteracion=1:numero_iteraciones(2)
-    
+for iteracion=1:numero_iteraciones(2)    
     flecha_iterada(iteracion,:)        = (d1.*d2)/(2*Re(iteracion));
     despejamiento_iterado(iteracion,:) = e + flecha_iterada(iteracion,:) - altura_rayo;
     uve_iterado(iteracion,:)           = sqrt(2)*despejamiento_iterado(iteracion,:)./R1;
@@ -54,8 +53,7 @@ for iteracion=1:numero_iteraciones(2)
     hold off
 end
 
-ylabel("Pérdidas por difracción dB ");
-xlabel("Obstáculo")
-legend("Difracción K = 1/2","Difracción K = 2/3","Difracción K = 1","Difracción K = 4/3")
+ylabel("Pérdidas por difracción dB ");xlabel("Obstáculo");
+legend("Difracción K = 1/2","Difracción K = 2/3","Difracción K = 1","Difracción K = 4/3");
 
 
