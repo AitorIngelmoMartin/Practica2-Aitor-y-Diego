@@ -69,6 +69,10 @@ for mux=1:5
     binomios(1,mux)=(d1(mux) +d1(mux+1));    
 end
 
+figure(2);title("Ldiff totales en funcion de K");
+plot(f,Ldif_iterado(:,posicion_obstaculo_mayor));
+ylabel("Pérdidas en dB ");xlabel("Obstáculo");
+
 
 %  EJERCICIO 1.3 PARTE 2-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*
 
@@ -110,7 +114,7 @@ posicion_uve_menos_negativo_inferior_subvano = zeros(numero_iteraciones(2),3);
     Ldiff_sin_CN(iteracion,:) = Ldif_iterado(iteracion,:) + Ldif_sd(iteracion);       
 end
 
-figure(2);title("Obstáculodominante con cota 815")
+figure(3);title("Obstáculodominante con cota 815")
 for iteracion=1:numero_iteraciones(2)    
     hold on
     plot(Ldif_iterado(iteracion,:))
@@ -125,7 +129,7 @@ CN = sqrt((sum(d1)*prod(d1))/prod(binomios));
 
 Ldiff_totales_dB  = Ldiff_sin_CN - 20*log10(CN);
 
-figure(3);title("Pérdidas totales en función de F");
+figure(4);title("Pérdidas totales en función de F");
 for iteracion=1:numero_iteraciones(2)
     hold on
     plot(Ldiff_totales_dB(iteracion,:));

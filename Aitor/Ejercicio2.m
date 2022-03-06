@@ -115,3 +115,8 @@ for iteracion=1:numero_iteraciones(2)
 end
 ylabel("Pérdidas en dB ");xlabel("Obstáculo");
 legend("Difracción K = 1/2","Difracción K = 2/3","Difracción K = 1","Difracción K = 4/3");
+
+figure(4);title("Ldiff totales en funcion de K");
+plot(K,Ldif_iterado(:,posicion_obstaculo_mayor));
+ylabel("Pérdidas en dB ");xlabel("Obstáculo");
+legend("Difracción K = 1/2","Difracción K = 2/3","Difracción K = 1","Difracción K = 4/3");
