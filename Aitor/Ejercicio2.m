@@ -55,14 +55,14 @@ for iteracion=1:numero_iteraciones(2)
     flecha_iterada(iteracion,:)        = (d1.*d2)/(2*Re(iteracion));
     despejamiento_iterado(iteracion,:) =  e + flecha_iterada(iteracion,:) - altura_rayo;
     uve_iterado(iteracion,:)           = sqrt(2)*despejamiento_iterado(iteracion,:)./R1;
-%     posicion_uve_afecta = find( uve_iterado(iteracion,:)<((-0.78)));
-%     uve_iterado_afectantes(uve_iterado(iteracion,:))
-    uve_iterado_afectantes             = uve_iterado(iteracion, min(uve_iterado) < -0.75)
-    Ldif_iterado          =  6.9 + 20*log10(sqrt((uve_iterado_afectantes-0.1).^2 +1) + uve_iterado_afectantes-0.1);
+
+    Ldif_iterado(iteracion,:)          =  6.9 + 20*log10(sqrt((uve_iterado(iteracion,:)-0.1).^2 +1) + uve_iterado(iteracion,:)-0.1);
     
     uve_obstaculo_principal_y_subvano(iteracion,:)  = [uve_iterado(iteracion,posicion_obstaculo_mayor-1),uve_iterado(iteracion,posicion_obstaculo_mayor),uve_iterado(iteracion,posicion_obstaculo_mayor+1)];
     posicion_uve_menos_negativo_inferior_subvano    = find( (uve_iterado(iteracion,:))<(min(uve_obstaculo_principal_y_subvano(iteracion,:))), 1, 'last' );
-    
+    if(uve_iterado(iteracion,posicion_obstaculo_mayor-1)<)
+        
+    end
     Ldif_sd(1,iteracion)      = Ldif_iterado(iteracion,posicion_uve_menos_negativo_inferior_subvano);
     Ldiff_sin_CN(iteracion,:) = Ldif_iterado(iteracion,:) + Ldif_sd(1,iteracion);
     

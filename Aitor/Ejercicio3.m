@@ -52,7 +52,7 @@ altura_rayo(:,end) = [];
 flecha        = (d1.*d2)/(2*Re);
 despejamiento =  e + flecha - altura_rayo;
 for iteracion=1:numero_iteraciones(2)   
-
+    
     uve_iterado(iteracion,:) = sqrt(2)*despejamiento./R1(iteracion,:);
     uve_obstaculo_principal_y_subvano(iteracion,:)  = [uve_iterado(iteracion,posicion_obstaculo_mayor-1),uve_iterado(iteracion,posicion_obstaculo_mayor),uve_iterado(iteracion,posicion_obstaculo_mayor+1)];
     posicion_uve_menos_negativo_inferior_subvano    = find( (uve(iteracion,:))>(min(uve_obstaculo_principal_y_subvano(iteracion,:))), 1, 'last' );
@@ -61,8 +61,9 @@ for iteracion=1:numero_iteraciones(2)
     Ldiff_sin_CN(iteracion,:) = Ldif_iterado(iteracion,:) + Ldif_sd(1,iteracion);       
     
 end
-
+uve_iterado_afectante = uve_iterado(:, min(uve_iterado < -0.75));
 figure(1);title("Parámetro de difracción en función de la f")
+% find(uve_iterado(5,:) < -0.78)
 for iteracion=1:numero_iteraciones(2)
     hold on
     plot(uve(iteracion,:));
