@@ -53,7 +53,7 @@ flecha        = (d1.*d2)/(2*Re);
 despejamiento =  e + flecha - altura_rayo;
 for iteracion=1:numero_iteraciones(2)   
 
-    uve_iterado(iteracion,:) = sqrt(2)*despejamiento./R1(iteracion,:);
+    uve_iterado(iteracion) = sqrt(2)*despejamiento(iteracion)./R1(iteracion,:);
     uve_obstaculo_principal_y_subvano(iteracion,:)  = [uve_iterado(iteracion,posicion_obstaculo_mayor-1),uve_iterado(iteracion,posicion_obstaculo_mayor),uve_iterado(iteracion,posicion_obstaculo_mayor+1)];
     posicion_uve_menos_negativo_inferior_subvano    = find( (uve(iteracion,:))>(min(uve_obstaculo_principal_y_subvano(iteracion,:))), 1, 'last' );
     
