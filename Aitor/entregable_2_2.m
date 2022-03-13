@@ -116,13 +116,13 @@ for iteracion=1:numero_iteraciones(2)
         Despejamiento_izquierda(iteracion,1) = Flecha_izquierda(iteracion,1) + e(1) - AlturaRayo_izq;        
         uve_izquiera(iteracion,1)            = sqrt(2)*(Despejamiento_izquierda(iteracion,1)/R1_izq);
         
-        Lad_izquierda(iteracion,:) = 6.9 + 20*log10(sqrt((uve_izquiera(iteracion,:)-0.1).^2 +1) + uve_izquiera(iteracion,:)-0.1);
+        Lad_izquierda(iteracion,:) = 6.9 + 20*log10(sqrt((uve_izquiera(iteracion,:)-0.1).^2 +1) + uve_izquiera(iteracion,:)-0.1)
    %DERECHA
         Flecha_derecha(iteracion,:)        = (d1_drch*d2_drch)/(2*Re(iteracion));
         Despejamiento_derecha(iteracion,:) = Flecha_derecha(iteracion,1) + e(1) - AlturaRayo_drch;        
         uve_derecha(iteracion,:)            = sqrt(2)*(Despejamiento_derecha(iteracion,1)/R1_drch);
       
-        Lad_derecha(iteracion,:) = 6.9 + 20*log10(sqrt((uve_derecha(iteracion,:)-0.1).^2 +1) + uve_derecha(iteracion,:)-0.1);
+        Lad_derecha(iteracion,:) = 6.9 + 20*log10(sqrt((uve_derecha(iteracion,:)-0.1).^2 +1) + uve_derecha(iteracion,:)-0.1)
      
    T(iteracion,:) =1-exp(-(max(Ldif_iterado(iteracion,:)))/6);
    
