@@ -72,37 +72,3 @@ for iteracion=1:numero_iteraciones(2)
 end
 ylabel("Valor coeficiente");xlabel("Obstáculo");
 legend("Difracción K = 1/2","Difracción K = 2/3","Difracción K = 1","Difracción K = 4/3");
-
-
-figure(2);title("Ldiff de cada obstáculo por separado");
-for iteracion=1:numero_iteraciones(2)
-    hold on 
-    plot(Ldif_iterado(iteracion,:));
-    xticks(1:6);
-    hold off
-end
-ylabel("Pérdidas en dB ");xlabel("Obstáculo");
-legend("Difracción K = 1/2","Difracción K = 2/3","Difracción K = 1","Difracción K = 4/3");
-
-
-for mux=1:5   
-    binomios(1,mux)=(d1(mux) +d1(mux+1));    
-end
-CN = sqrt((sum(d1)*prod(d1))/prod(binomios));
-
-Ldiff_totales_dB  = Ldiff_sin_CN - 20*log10(CN);
-
-figure(3);title("Ldiff totales en funcion de K");
-for iteracion=1:numero_iteraciones(2)
-    hold on 
-    plot(Ldiff_totales_dB(iteracion,:));
-    xticks(1:6);
-    hold off
-end
-ylabel("Pérdidas en dB ");xlabel("Obstáculo");
-legend("Difracción K = 1/2","Difracción K = 2/3","Difracción K = 1","Difracción K = 4/3");
-
-figure(4);title("Ldiff totales en funcion de K");
-plot(K,Ldif_iterado(:,posicion_obstaculo_mayor));
-ylabel("Pérdidas en dB ");xlabel("Obstáculo");
-legend("Difracción K = 1/2","Difracción K = 2/3","Difracción K = 1","Difracción K = 4/3");
