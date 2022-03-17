@@ -36,10 +36,8 @@ e(:,end) = [];
 
 d2=d-d1;
 
-obstaculo_mayor          = max(e);
-posicion_obstaculo_mayor = find(e==obstaculo_mayor);
-uve                      = sqrt(2)*despejamiento./R1;
-Ldif_iterado             = 6.9 + 20*log10(sqrt((uve-0.1).^2 +1) + uve-0.1);
+uve           = sqrt(2)*despejamiento./R1;
+Ldif_iterado  = 6.9 + 20*log10(sqrt((uve-0.1).^2 +1) + uve-0.1);
 
 altura_rayo(:,1) = [];
 altura_rayo(:,end) = [];
