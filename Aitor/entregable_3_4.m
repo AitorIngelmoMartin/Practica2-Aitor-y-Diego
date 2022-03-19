@@ -1,4 +1,3 @@
-%  EJERCICIO 1.3*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*
 clear;clc;close all;
 K      = 4/3;
 c      = 3e8;
@@ -75,24 +74,36 @@ figure(1);title("Ldiff totales")
 for iteracion=1:numero_iteraciones(2)
 
    %IZQUIERDA 
-        R1_izq(iteracion,:)        = sqrt(lambda(1,iteracion)*d1_izq*d2_izq/d_izq);
-  
+        R1_izq(iteracion,:)        = sqrt(lambda(1,iteracion)*d1_izq*d2_izq/d_izq);  
+       
         uve_izquiera(iteracion,:)  = sqrt(2)*(Despejamiento_izquierda/R1_izq(iteracion,:));
         
-        Lad_izquierda(iteracion,:) = 6.9 + 20*log10(sqrt((uve_izquiera(iteracion,:)-0.1).^2 +1) + uve_izquiera(iteracion,:)-0.1)
+        if(uve_izquiera(iteracion,:)<-0.78)
+          Lad_izquierda(iteracion,:) =0;
+        else         
+          Lad_izquierda(iteracion,:) = 6.9 + 20*log10(sqrt((uve_izquiera(iteracion,:)-0.1).^2 +1) + uve_izquiera(iteracion,:)-0.1)
+        end
+      
    %DERECHA
      
         R1_drch(iteracion,:)     = sqrt(lambda(1,iteracion)*d1_drch*d2_drch/d_drch);
         
         uve_derecha(iteracion,:) = sqrt(2)*(Despejamiento_derecha/R1_drch(iteracion,:));
-      
-        Lad_derecha(iteracion,:) = 6.9 + 20*log10(sqrt((uve_derecha(iteracion,:)-0.1).^2 +1) + uve_derecha(iteracion,:)-0.1)
-     
+        
+        if(uve_derecha(iteracion,:)<-0.78)
+          Lad_derecha(iteracion,:) =0;
+        else
+          Lad_derecha(iteracion,:)  = 6.9 + 20*log10(sqrt((uve_derecha(iteracion,:)-0.1).^2 +1) + uve_derecha(iteracion,:)-0.1)
+        end
+        
         T(iteracion,:) =1-exp(-(max(Ldif_iterado(iteracion,:)))/6);
    
-   Ldiff_totales(iteracion,:) = max(Ldif_iterado(iteracion,:)) + T(iteracion,:)*(Lad_derecha(iteracion,:) + Lad_izquierda(iteracion,:) + C)
+   Ldiff_totales(iteracion,:) = max(Ldif_iterado(iteracion,2)) + T(iteracion,:)*(Lad_derecha(iteracion,:) + Lad_izquierda(iteracion,:) + C)
 
    
 end
 plot(f,Ldiff_totales)
 ylabel("Pérdidas en dB ");xlabel("Valores de f");
+
+
+Peridas = [Lad_izquierda(:,1) Ldiff_totales(:,1) Lad_derecha(:,1)]
