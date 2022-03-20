@@ -9,8 +9,8 @@ lambda = c/f;
 d  = 20.09e3; %en Km
 R0 = 6370e3;
 
-e  = [797 800 803 799 735 760 788 805];
-a  = [11 0 0 0 0 0 0  11];
+e = [796 800 803 799 735 760 788 805];
+a = [10 0 0 0 0 0 0 8];
 d1 = [0 0.806e3 1.910e3 3.721e3 7.831e3 10.955e3 14.965e3 d];
 d2 = d - d1;
 
@@ -54,15 +54,12 @@ figure(1);title("Coeficiente de difracción por obstáculo");
 for iteracion=1:numero_iteraciones(2)    
     flecha_iterada(iteracion,:)        = (d1.*d2)/(2*Re(iteracion));
     despejamiento_iterado(iteracion,:) =  e + flecha_iterada(iteracion,:) - altura_rayo;
-    uve_iterado(iteracion,:)           = sqrt(2)*despejamiento_iterado(iteracion,:)./R1;
+    
+    uve_iterado(iteracion,:)           = sqrt(2)*despejamiento_iterado(iteracion,:)./R1
 
     Ldif_iterado(iteracion,:)          =  6.9 + 20*log10(sqrt((uve_iterado(iteracion,:)-0.1).^2 +1) + uve_iterado(iteracion,:)-0.1);
     
-    uve_obstaculo_principal_y_subvano(iteracion,:)  = [uve_iterado(iteracion,posicion_obstaculo_mayor-1),uve_iterado(iteracion,posicion_obstaculo_mayor),uve_iterado(iteracion,posicion_obstaculo_mayor+1)];
-    posicion_uve_menos_negativo_inferior_subvano    = find( (uve_iterado(iteracion,:))<(min(uve_obstaculo_principal_y_subvano(iteracion,:))), 1, 'last' );
 
-    Ldif_sd(1,iteracion)      = Ldif_iterado(iteracion,posicion_uve_menos_negativo_inferior_subvano);
-    Ldiff_sin_CN(iteracion,:) = Ldif_iterado(iteracion,:) + Ldif_sd(1,iteracion);
     
     hold on
     plot(uve_iterado(iteracion,:))
