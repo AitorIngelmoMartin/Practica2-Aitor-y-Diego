@@ -58,9 +58,7 @@ for iteracion=1:numero_iteraciones(2)
     uve_iterado(iteracion,:)           = sqrt(2)*despejamiento_iterado(iteracion,:)./R1
 
     Ldif_iterado(iteracion,:)          =  6.9 + 20*log10(sqrt((uve_iterado(iteracion,:)-0.1).^2 +1) + uve_iterado(iteracion,:)-0.1);
-    
-
-    
+        
     hold on
     plot(uve_iterado(iteracion,:))
     xticks(1:6);

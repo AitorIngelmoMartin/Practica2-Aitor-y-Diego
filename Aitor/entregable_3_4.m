@@ -102,8 +102,8 @@ for iteracion=1:numero_iteraciones(2)
 
    
 end
-plot(f,Ldiff_totales)
-ylabel("Pérdidas en dB ");xlabel("Valores de f");
+plot(f,Ldiff_totales);title("Ldiff totales [dB]");
+ylabel("Pérdidas [dB] ");xlabel("Valores de f");
 
 
 Peridas = [Lad_izquierda(:,1) Ldiff_totales(:,1) Lad_derecha(:,1)]

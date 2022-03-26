@@ -38,8 +38,8 @@ e(:,end) = [];
 
 d2=d-d1;
 
-uve                      = sqrt(2)*despejamiento./R1;
-Ldif_iterado             = 6.9 + 20*log10(sqrt((uve-0.1).^2 +1) + uve-0.1);
+uve_iterado              = sqrt(2)*despejamiento./R1;
+Ldif_iterado             = 6.9 + 20*log10(sqrt((uve_iterado-0.1).^2 +1) + uve_iterado-0.1);
 
 
 altura_rayo(:,1) = [];
@@ -48,9 +48,6 @@ altura_rayo(:,end) = [];
 flecha        = (d1.*d2)/(2*Re);
 despejamiento =  e + flecha - altura_rayo;
 
-for iteracion=1:numero_iteraciones(2)       
-    uve_iterado(iteracion,:)   = sqrt(2)*despejamiento./R1(iteracion,:);   
-end
 
 d_izq   = d1(2);
 d1_izq  = d1(1);
