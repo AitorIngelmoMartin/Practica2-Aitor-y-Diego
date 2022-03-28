@@ -1,6 +1,6 @@
 clear;close all;clc;
 
-f      = 5800e6;
+f      = 2.3e9;
 c      = 3e8;
 lambda = c/f;
 
