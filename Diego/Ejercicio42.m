@@ -146,7 +146,9 @@ if(uve(2)>-0.78 && uve(3)>-0.78)
     end
 end
     %----------------------------------------------------------------------
-
+    
+    gamma_gases = 0.007;
+    Lgases = gamma_gases*d/1000;
     Lbf_dB = 20*log10(4*pi*d/lambda);
-    Lb_dB =Lbf_dB + Lad_dB;
+    Lb_dB =Lbf_dB + Lad_dB + Lgases + 3.7;
     Prec_dBm = Ptx_dBm + G_dB - Lt_dB - Lb_dB +G_dB - Lt_dB;
