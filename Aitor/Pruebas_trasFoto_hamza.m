@@ -43,22 +43,37 @@ despejamiento_iterado = zeros(numero_iteraciones(2),columnas(2));
 uve_iterado           = zeros(numero_iteraciones(2),columnas(2));
 Ldif_iterado          = zeros(numero_iteraciones(2),columnas(2));
 
-figure(1);title("Coeficiente de difracción por obstáculo");
-for iteracion=1:numero_iteraciones(2)    
-    
-    flecha_iterada(iteracion,:)        = (d1.*d2)/(2*Re(iteracion));
-    
-    despejamiento_iterado(iteracion,:) =  e + flecha_iterada(iteracion,:) - altura_rayo;
-    
-    uve_iterado(iteracion,:)           = sqrt(2)*despejamiento_iterado(iteracion,:)./R1
 
-    Ldif_iterado(iteracion,:)          =  6.9 + 20*log10(sqrt((uve_iterado(iteracion,:)-0.1).^2 +1) + uve_iterado(iteracion,:)-0.1);
+
+d_izq   = d1(2);
+d1_izq  = d1(1);
+d2_izq  = d1(2)-d1(1);
+h2_izq  = e(2);
+h1_izq  = 796+10;
+AlturaRayo_izq   = ((h2_izq-h1_izq)/d_izq)*d1_izq+h1_izq;
+
+Flecha_izquierda        = (d1_izq*d2_izq)/(2*Re(4));
+Despejamiento_izquierda = Flecha_izquierda + h1_izq - AlturaRayo_izq;      
         
-    hold on
-    plot(uve_iterado(iteracion,:))
-    xticks(1:6);
-    hold off
-    
+d_drch  = d2(2);
+d1_drch = d1(3)-d1(2);
+d2_drch = d2(3);
+h2_drch = 805+8;
+h1_drch = e(2);
+AlturaRayo_drch  = ((h2_drch-h1_drch)/d_drch)*d1_drch+h1_drch;
+
+Flecha_derecha        = (d1_drch*d2_drch)/(2*Re(4));
+Despejamiento_derecha = Flecha_derecha + e(1) - AlturaRayo_drch;   
+
+
+for iteracion=1:numero_iteraciones(2)
+
+   %IZQUIERDA 
+        R1_izq        = sqrt(lambda*d1_izq*d2_izq/d_izq);
+  
+        uve_izquiera  = sqrt(2)*(Despejamiento_izquierda/R1_izq);
+        %DERECHA
+     
+        uve_derecha(iteracion,:)  = sqrt(2)*(Despejamiento_derecha/R1(3));
+   
 end
-ylabel("Valor coeficiente");xlabel("Obstáculo");
-legend("Difracción K = 1/2","Difracción K = 2/3","Difracción K = 1","Difracción K = 4/3");

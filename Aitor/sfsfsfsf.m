@@ -1,22 +1,3 @@
-% En primer lugar, se procederá al estudio de la influencia de los obstáculos en el radioenlace que se 
-% ha implementado en PROYECTO RADIO en una atmósfera estándar (K=4/3).
-% Los datos de cota y altura de antenas de las dos estaciones y de los obstáculos, se deben obtener 
-% del programa. 
-% Los seis obstáculos están situados a las siguientes distancias de la estación transmisora CAL1, 
-% expresadas en kilómetros:
-% [01, 02, 03, 04, 05, 06]= [0.806 1.910 3.721 7.831 10.955 14.965]
-% Para ello, se deben seguir los siguientes pasos: 
-
-% EJERCICIO 1. CÁLCULO DE LAS PÉRDIDAS POR DIFRACCIÓN
-% Calcular las pérdidas por difracción para atmósfera estándar:
-% 1. Determinar el despejamiento en forma de porcentaje del radio de la primera zona de 
-% Fresnel y el parámetro de difracción (ν) correspondiente a los obstáculos presentes, las 
-% alturas consideradas para las antenas y k=4/3.
-% 2. Comparar el despejamiento en forma de porcentaje de la primera zona de Fresnel del 
-% obstáculo dominante con el obtenido mediante PROYECTO RADIO.
-% 3. Determinar las pérdidas por difracción por múltiples obstáculos considerados como 
-% aristas de cuchillo para k=4/3
-
 
 clear;clc;
 
