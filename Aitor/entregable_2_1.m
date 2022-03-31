@@ -86,13 +86,6 @@ Rfresnell_IZQ     = sqrt((lambda*D1_IZQ*D2_IZQ)/(D1_IZQ+D2_IZQ));
 
 Difracc_IZQ       = sqrt(2)*(Despejamiento_IZQ/Rfresnell_IZQ)
 
-% for(iteracion=1:4)
-%  Ldif_iterado(iteracion)         =  6.9 + 20*log10(sqrt((Difracc_O1(iteracion)-0.1).^2 +1) + Difracc_O1(iteracion)-0.1);
-% end
-
-% ********
-
-
 %SUBVANO DRCH---------
 
 Distancia_DRCH =18180;

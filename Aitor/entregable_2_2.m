@@ -54,7 +54,7 @@ for iteracion=1:numero_iteraciones(2)
     uve_iterado(iteracion,:)           = sqrt(2)*despejamiento_iterado(iteracion,:)./R1;
  
     Ldif_iterado(iteracion,:)          =  6.9 + 20*log10(sqrt((uve_iterado(iteracion,:)-0.1).^2 +1) + uve_iterado(iteracion,:)-0.1);
-  
+    T(iteracion,:) =1-exp(-(max(Ldif_iterado(iteracion,:)))/6);
     hold on
     plot(uve_iterado(iteracion,:))
     xticks(1:6);
@@ -94,38 +94,54 @@ R1_drch          = sqrt(lambda*d1_drch*d2_drch/d_drch);
 
 C =10+0.04*(d1(2)/1000+d2(2)/1000);
 
-figure(5);title("Ldiff obstáculos con V > -0.78")
-for iteracion=1:numero_iteraciones(2)
+%SUBVANO IZQ---------
 
-   %IZQUIERDA 
-        Flecha_izquierda(iteracion,1)        = (d1_izq*d2_izq)/(2*Re(iteracion));
-        Despejamiento_izquierda(iteracion,1) = Flecha_izquierda(iteracion,1) + e(1) - AlturaRayo_izq;        
-        uve_izquiera(iteracion,1)            = sqrt(2)*(Despejamiento_izquierda(iteracion,1)/R1_izq);
-        if(uve_izquiera(iteracion,:)< -0.78)
-            Lad_izquierda(iteracion,:) =0;
-        else
-        Lad_izquierda(iteracion,:) = 6.9 + 20*log10(sqrt((uve_izquiera(iteracion,:)-0.1).^2 +1) + uve_izquiera(iteracion,:)-0.1)
-        end
-   %DERECHA
-        Flecha_derecha(iteracion,:)         = (d1_drch*d2_drch)/(2*Re(iteracion));
-        Despejamiento_derecha(iteracion,:)  = Flecha_derecha(iteracion,1) + e(1) - AlturaRayo_drch;        
-        uve_derecha(iteracion,:)            = sqrt(2)*(Despejamiento_derecha(iteracion,1)/R1_drch);
-        if(uve_derecha(iteracion,:)< -0.78)
-            Lad_derecha(iteracion,:) =0;
-        else
-        Lad_derecha(iteracion,:) = 6.9 + 20*log10(sqrt((uve_derecha(iteracion,:)-0.1).^2 +1) + uve_derecha(iteracion,:)-0.1)
-        end
-   T(iteracion,:) =1-exp(-(max(Ldif_iterado(iteracion,:)))/6);
-   
-  Ldiff_totales(iteracion,:) = max(Ldif_iterado(iteracion,:)) + T(iteracion,:)*(Lad_derecha(iteracion,:) + Lad_izquierda(iteracion,:) + C)
+Distancia_IZQ =1910;
+D1_IZQ = 806;
+D2_IZQ = Distancia_IZQ - D1_IZQ;
+e_IZQ            = 800;
 
-   
+h2_IZQ = 803;
+h1_IZQ = 796+10;
+
+AlturaRayo_IZQ   = ((h2_IZQ-h1_IZQ)/Distancia_IZQ)*D1_IZQ + h1_IZQ;
+
+for(iteracion=1:4)
+    Flecha_IZQ(iteracion)  = (D1_IZQ*D2_IZQ)/(2*K(iteracion)*R0);
+    Despejamiento_IZQ(iteracion)      = Flecha_IZQ(iteracion) + e_IZQ-AlturaRayo_IZQ;
 end
-plot(K,Ldiff_totales)
-ylabel("Pérdidas en dB ");xlabel("Valores de K");
 
+Rfresnell_IZQ     = sqrt((lambda*D1_IZQ*D2_IZQ)/(D1_IZQ+D2_IZQ));
+
+Difracc_IZQ       = sqrt(2)*(Despejamiento_IZQ/Rfresnell_IZQ)
+
+%SUBVANO DRCH---------
+
+Distancia_DRCH =18180;
+D1_DRCH = 1811;
+D2_DRCH= Distancia_DRCH - D1_DRCH;
+e_DRCH            = 799;
+
+h2_DRCH = 805+8;
+h1_DRCH = 803;
+
+AlturaRayo_DRCH   = ((h2_DRCH-h1_DRCH)/Distancia_DRCH)*D1_DRCH + h1_DRCH;
+
+for(iteracion=1:4)
+    Flecha_DRCH(iteracion)  = (D1_DRCH*D2_DRCH)/(2*K(iteracion)*R0);
+    Despejamiento_DRCH(iteracion)      = Flecha_DRCH(iteracion) + e_DRCH-AlturaRayo_DRCH;
+end
+
+Rfresnell_DRCH     = sqrt((lambda*D1_DRCH*D2_DRCH)/(D1_DRCH+D2_DRCH));
+
+Difracc_DRCH       = sqrt(2)*(Despejamiento_DRCH/Rfresnell_DRCH)
+
+for(iteracion=1:4)
+ Ldif_DRCH(iteracion)         =  6.9 + 20*log10(sqrt((Difracc_DRCH(iteracion)-0.1).^2 +1) + Difracc_DRCH(iteracion)-0.1);
+end
+
+Ldiff_total = max(Ldif_iterado(:,2)) + T.*(transpose(Ldif_DRCH)+ C)
 
 figure(4);title("Ldiff totales en funcion de K");
-plot(K,Ldif_iterado(:,posicion_obstaculo_mayor));
+plot(K,Ldiff_total);
 ylabel("Pérdidas en dB ");xlabel("Obstáculo");
-Peridas = [Lad_izquierda(:,1) Ldiff_totales(:,1) Lad_derecha(:,1)]
