@@ -38,8 +38,7 @@ e(:,end) = [];
 uve                      = sqrt(2)*despejamiento./R1;
 Ldif_iterado             = 6.9 + 20*log10(sqrt((uve-0.1).^2 +1) + uve-0.1);
 
-
-
+C =10+0.04*(d1(2)/1000+d2(2)/1000);
 %SUBVANO IZQ---------
 
 Distancia_IZQ =1910;
@@ -86,29 +85,7 @@ Ldif_DRCH       =  6.9 + 20*log10(sqrt((Difracc_DRCH-0.1).^2 +1) + Difracc_DRCH-
 
 
 
-
-
-% Ldiff_totales1(iteracion,:) = Ldif_iterado(iteracion,:) + T(iteracion,:)*(Lad_derecha(iteracion,:) + Lad_izquierda(iteracion,:) + C);
-% 
-% Ldiff_totales1 = [Ldiff_totales1(1) Ldiff_totales1(2) Ldiff_totales1(3) 0 0 0 0 0 0];
-% 
-DistanciaObstaculos = 1811;
-Distancia_E1_O1 = d1(2);
-Distancia_E1_O2 = d1(3);
-Distancia_E2_O1 = d2(2);
-Distancia_E2_O2 = d2(3);
-h2 = 813;
-e_O2 = e(3);
-e_O1 = e(2);
-for iteracion = 4:9
-    Ldiff_totales2(iteracion,:) = difraccionDosObstaculos(uve(iteracion,2),uve(iteracion,3),Distancia_E1_O1,Distancia_E1_O2,Re,h1,h2,e_O2,e_O1,lambda(iteracion),Distancia_E2_O1,Distancia_E2_O2);
-end
-Ldif_iterado_importante = [[5.55771553466051;5.04825916991385;4.72771278143924];0;0;0;0;0;0]
-
-C =10+0.04*(d1(2)/1000+d2(2)/1000);
 T =1-exp(-(Ldif_iterado(:,2))/6);   
-   
-Ldiff_totales1 = Ldif_iterado(:,2) + T.*(Ldif_DRCH + Lad_izquierda + C)
+T =   [ T(1:3);0;0;0;0;0;0] 
+Ldiff_totales1 = Ldif_iterado(:,2) + T.*(transpose((Ldif_DRCH + Lad_izquierda + C)))
 
-
-Perdidas = Ldiff_totales2 + [transpose(Ldif_DRCH(1:3));0;0;0;0;0;0] + [transpose(Lad_izquierda(1:3));0;0;0;0;0;0] + Ldif_iterado_importante
