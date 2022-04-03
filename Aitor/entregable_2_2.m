@@ -116,7 +116,7 @@ for(iteracion=1:4)
 end
 C =10+0.04*(d1(2)/1000+d2(2)/1000);
 
-Ldiff_totales = max(Ldif_iterado(:,2)) + T.*(transpose(Ldif_DRCH)+ C)
+Ldiff_totales = Ldif_iterado(:,2) + T.*(transpose(Ldif_DRCH)+ C)
 
 plot(K,Ldiff_totales);title("Ldiff totales [dB]");
 ylabel("Pérdidas [dB] ");xlabel("Valores de f");
