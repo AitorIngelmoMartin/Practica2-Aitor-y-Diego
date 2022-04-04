@@ -39,6 +39,8 @@ uve                      = sqrt(2)*despejamiento./R1;
 Ldif_iterado             = 6.9 + 20*log10(sqrt((uve-0.1).^2 +1) + uve-0.1);
 
 C =10+0.04*(d1(2)/1000+d2(2)/1000);
+
+
 %SUBVANO IZQ---------
 
 Distancia_IZQ =1910;
@@ -59,7 +61,7 @@ Rfresnell_IZQ     = sqrt((lambda*D1_IZQ*D2_IZQ)/(D1_IZQ+D2_IZQ));
 
 Difracc_IZQ       = sqrt(2)*(Despejamiento_IZQ./Rfresnell_IZQ)
 
-Lad_izquierda = 6.9 + 20*log10(sqrt((Difracc_IZQ-0.1).^2 +1) + Difracc_IZQ-0.1);
+Lad_izquierda =transpose(6.9 + 20*log10(sqrt((Difracc_IZQ-0.1).^2 +1) + Difracc_IZQ-0.1));
 %SUBVANO DRCH---------
 
 Distancia_DRCH =18180;
@@ -81,11 +83,12 @@ Rfresnell_DRCH     = sqrt((lambda*D1_DRCH*D2_DRCH)/(D1_DRCH+D2_DRCH));
 
 Difracc_DRCH       = sqrt(2)*(Despejamiento_DRCH./Rfresnell_DRCH)
 
-Ldif_DRCH       =  6.9 + 20*log10(sqrt((Difracc_DRCH-0.1).^2 +1) + Difracc_DRCH-0.1)
-
+Ldif_DRCH          =  transpose(6.9 + 20*log10(sqrt((Difracc_DRCH-0.1).^2 +1) + Difracc_DRCH-0.1))
 
 
 T =1-exp(-(Ldif_iterado(:,2))/6);   
-T =   [ T(1:3);0;0;0;0;0;0] 
-Ldiff_totales1 = Ldif_iterado(:,2) + T.*(transpose((Ldif_DRCH + Lad_izquierda + C)))
+T =   [T(1:3);0;0;0;0;0;0] 
+
+Ldiff_totales1 = Ldif_iterado(:,2) + T.*((Ldif_DRCH + Lad_izquierda + C))
+
 
