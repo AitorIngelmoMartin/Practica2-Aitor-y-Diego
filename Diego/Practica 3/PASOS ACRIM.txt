@@ -1,0 +1,21 @@
+1. C/N0_min
+2. ACRIM
+		-Equiespaciadas
+
+		-Meter las 4 frecuencias del transpondedor
+		- Frecuencia en MHz
+		-La potencia se pone en la pestaña de tipo.
+		- Calcular el ancho de banda de la portadora
+		-Input: IBO
+		-Simulacio para cada IBO
+		-Esc + Post processor
+
+		Sacar con ACRIM OBO y C/I->C/I0
+
+3.Calcular C/N0_up para todos los IBOS
+4. Calcular C/NO_down -> IBO de portadora y OBO de portadora
+5. Clacular C/NO_total (Se requieren los anteriores)
+
+6 y 7 en paralelo. 4 depende del 2. El 5 depende del 2,3 y 4.
+
+6.Sacar atenuación por lluvia.
