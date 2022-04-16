@@ -55,7 +55,7 @@ h1_IZQ = 796+10;
 AlturaRayo_IZQ   = ((h2_IZQ-h1_IZQ)/Distancia_IZQ)*D1_IZQ + h1_IZQ;
 
 
-Flecha_IZQ           = (D1_IZQ*D2_IZQ)/(2*K*R0);
+Flecha_IZQ            = (D1_IZQ*D2_IZQ)/(2*K*R0);
 Despejamiento_IZQ     = Flecha_IZQ + e_IZQ-AlturaRayo_IZQ;
 
 Rfresnell_IZQ     = sqrt((lambda*D1_IZQ*D2_IZQ)/(D1_IZQ+D2_IZQ));
@@ -112,7 +112,7 @@ Difracc_O2   = [-0.120993041720418,-0.251867101121381,-0.335014562533955,-0.4012
 %--------------------
 
 
-for iteracion=4:9
+for iteracion=1:9
 if( ( (Difracc_O1(iteracion)<0) ||(Difracc_O2(iteracion)<0) ) && (abs(Difracc_O1(iteracion) -Difracc_O2(iteracion))<0.5) )
     
         %Para Ldif(uve'1)
@@ -123,7 +123,7 @@ if( ( (Difracc_O1(iteracion)<0) ||(Difracc_O2(iteracion)<0) ) && (abs(Difracc_O1
         Despejamiento_A_prima  = e_O1 + flecha_A_prima - altura_rayo_A_prima;
 
         R1_A_prima      = sqrt(lambda(iteracion)*Distancia_entre_obstaculos*Distancia_E2_O1/Distancia_E1_O2);
-        Difracc_A_prima = sqrt(2)*(Despejamiento_A_prima./R1_A_prima);
+        Difracc_A_prima(iteracion,:) = sqrt(2)*(Despejamiento_A_prima./R1_A_prima);
 
         %Para Ldif(uve'2)
         flecha_2p             = Distancia_entre_obstaculos*Distancia_E2_O2/(2*Re);
@@ -131,12 +131,12 @@ if( ( (Difracc_O1(iteracion)<0) ||(Difracc_O2(iteracion)<0) ) && (abs(Difracc_O1
         Despejamiento_B_prima = e_O2 + flecha_2p - altura_rayo_B_prima;
 
         R1_B_prima      = sqrt(lambda(iteracion)*Distancia_entre_obstaculos*Distancia_E2_O2/Distancia_E2_O1);
-        Difracc_B_prima = sqrt(2)*(Despejamiento_B_prima./R1_B_prima);
+        Difracc_B_prima(iteracion,:) = sqrt(2)*(Despejamiento_B_prima./R1_B_prima);
         
         Ldif_A_prima    = 6.9 + 20*log10(sqrt((Difracc_A_prima-0.1).^2+1)+Difracc_A_prima-0.1);
         Ldif_B_prima    = 6.9 + 20*log10(sqrt((Difracc_B_prima-0.1).^2+1)+Difracc_B_prima-0.1);
         
-        Ldif_dB(iteracion,:) = Ldif_A_prima+Ldif_B_prima+10*log10((Distancia_E1_O2*Distancia_E2_O1)/(Distancia_entre_obstaculos*(Distancia_E1_O2+Distancia_E2_O1)))
+        Ldif_dB(iteracion,:) = Ldif_A_prima(iteracion,:)+Ldif_B_prima(iteracion,:)+10*log10((Distancia_E1_O2*Distancia_E2_O1)/(Distancia_entre_obstaculos*(Distancia_E1_O2+Distancia_E2_O1)))
 end
 
 if( ( (Difracc_O1(iteracion)>0) && (Difracc_O2(iteracion)>0) ) && (abs(Difracc_O1 -Difracc_O2)>0.5) )
@@ -180,5 +180,8 @@ end
     
 end
 end
+Un_obs = [-0.358134521542571;-0.425124067513148;-0.482908490334681]
+
+Ldif_un_obs = 6.9 + 20*log10(sqrt( (Un_obs      -0.1).^2 +1) + Un_obs      -0.1)
 
 Ltotales = [Ldiff_3_obtaculos;0;0;0;0;0;0] + Ldif_dB;

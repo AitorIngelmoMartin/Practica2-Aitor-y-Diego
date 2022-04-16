@@ -77,30 +77,32 @@ OBO_tpdr = [-3.877 -4.212  -4.561 -4.924 5.299 -5.686];
 
 C_I = [17.918 18.424 18.907 19.374 19.828 20.279]; %C_N_IM
 
-BN = Rb*FEC/log2(M); %ancho de banda de ruido de la portadora
+BW_senal = (1+roll_off)*(Rb/(log2(M)));
 
-C_I0 = C_I * BN; % C_NO_IM (de intermodulacion)
+BW_ruido = Rb*FEC/log2(M); %ancho de banda de ruido de la portadora
+
+C_I0 = C_I .* BW_ruido; % C_NO_IM (de intermodulacion)
 
 %------------------------------------
 
 %EJERCICIO 3 y EJERCICIO 4
 
 K = 1.381e-23;
-BW_total = (1 + roll_off)*(Rb*FEC/log2(M));
-BW_ptdr = 13;
+BW_portadora        = (1 + roll_off)*(Rb*FEC/log2(M));
+BW_total_portadoras = 4*BW_portadora;
 
-IBO_ptdr = IBO_tpdr + 10*log10(BW_ptdr/BW_total);
-OBO_ptdr = IBO_tpdr + 10*log10(BW_ptdr/BW_total);
+IBO_ptdr = IBO_tpdr + 10*log10(BW_portadora/BW_total_portadoras);
+OBO_ptdr = OBO_tpdr + 10*log10(BW_portadora/BW_total_portadoras);
 
 PIRE_et_dBW = SFD_dBW + 10*log10(4*pi*d_tx^2) + Lad_up_dB;
 
 PIRE_txmax_et_dBW = PIRE_et_dBW + IBO_ptdr;
-PIRE_satmax_dBW = PIRE_sat_dBW + OBO_ptdr;
+PIRE_satmax_dBW   = PIRE_sat_dBW + OBO_ptdr;
 
-C_N0_up = PIRE_et_dBW + IBO_ptdr - Lbf_up_dB - Lad_up_dB - Margen + G_T_sat - 10*log10(K);
+C_N0_up   = PIRE_et_dBW + IBO_ptdr - Lbf_up_dB - Lad_up_dB - Margen + G_T_sat - 10*log10(K);
 C_N0_down = PIRE_sat_dBW + OBO_ptdr - Lbf_down_dB - Lad_down_dB - Margen + G_T_etrx - 10*log10(K);
 
 %EJERCICIO 5
 
 c_n0_total  = 1./(1./(10.^(C_N0_up./10))+ 1./(10.^(C_N0_down./10)) + 1./(10.^(C_I0./10)));
-C_N0_total = 10*log10(c_n0_total);
+C_N0_total  = 10*log10(c_n0_total);

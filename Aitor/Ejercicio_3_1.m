@@ -47,12 +47,11 @@ IBO_tpdr = [-8.5 -9 -9.5 -10 -10.5 -11];
 
 %EJERCICIO 3
 
+BW_portadora        = (1 + roll_off)*(Rb*FEC/log2(M));
+BW_total_portadoras = 4*BW_portadora;
 
-BW_total = (1 + roll_off)*(Rb*FEC/log2(M));
-BW_ptdr  = 13;
-
-IBO_ptdr = IBO_tpdr + 10*log10(BW_ptdr/BW_total);
-OBO_ptdr = IBO_tpdr + 10*log10(BW_ptdr/BW_total);
+IBO_ptdr = IBO_tpdr + 10*log10(BW_portadora/BW_total_portadoras);
+OBO_ptdr = OBO_tpdr + 10*log10(BW_portadora/BW_total_portadoras);
 
 PIRE_et_dBW = SFD_dBW + 10*log10(4*pi*d_tx^2) + Lad_up_dB;
 
