@@ -67,6 +67,7 @@ Lb_down_dB  = Lbf_down_dB + Lad_down_dB;
 Eb_N0 = 13.15; % de la tabla
 
 C_N0 = Eb_N0 + 10*log10(Rb);
+% Es la mínima para que el servicio se de
 
 %-------------------------------------------------
 
