@@ -13,12 +13,12 @@ clc;clear;
 
 % R_coruna   = itur_p0837_7_annex1(0.01,43.3613888889,-7.58861111111,0)
 
-R_punto_medio_total    = itur_p0837_7_annex1(0.01,43.105521,-8.487165,0)
-
-R_punto_medio_inferior =  itur_p0837_7_annex1(0.01,43.002501, -8.503177,0)
-
-R_punto_medio_superior = itur_p0837_7_annex1(0.01,43.211341, -8.458397,0)
-
+% R_punto_medio_total    = itur_p0837_7_annex1(0.01,43.105521,-8.487165,0)
+  R_punto_medio_total =40.141518816862316;
+% R_punto_medio_inferior =  itur_p0837_7_annex1(0.01,43.002501, -8.503177,0)
+  R_punto_medio_inferior = 40.754813773852334;
+% R_punto_medio_superior = itur_p0837_7_annex1(0.01,43.211341, -8.458397,0)
+  R_punto_medio_superior =39.198960977634940;
 % R_001_total = [R_punto_medio_inferior R_punto_medio_total R_punto_medio_superior]
 
 MTBF = 175320; %En horas
@@ -38,8 +38,8 @@ Distancia = Distancia/2;
  Lt_dB = 1.5;
  Lbf_dB = 20*log10((4*pi*Distancia)/lambda)
  
- Prx_dBm          = Ptx_dBm + G_dB - Lt_dB - Lbf_dB - Lgas_dB + G_dB - Lt_dB
- Umbral_dataSheet = -68.5;
+ Prx_dBm          = Ptx_dBm + G_dB - Lt_dB - Lbf_dB - Lgas_dB + G_dB - Lt_dB -2
+ Umbral_dataSheet = -68.5 +2;
  Margen_dBm       = Prx_dBm - Umbral_dataSheet
 
 
@@ -71,6 +71,12 @@ F_001     = Gamma_r * Deff % dB
  q_calculado = 10^x
 
  Fq_calculado_dB = F_001*C1*(q_calculado^(-(C2+C3*log10(q_calculado))));
+ 
+ 
+ Equipos = 1.5*(MTTR/MTBF)*100;
+ 
+ 
+ Total = 2*(q_calculado + Equipos)
  
  
  
