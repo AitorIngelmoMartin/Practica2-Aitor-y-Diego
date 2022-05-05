@@ -1,4 +1,4 @@
-lear;clc;close all;
+clear;clc;close all;
 K      = 4/3;
 c      = 3e8;
 f      = [300,1300, 2300, 3300, 4300,7475,12650, 17825, 23000].*1e6;
@@ -54,7 +54,7 @@ despejamiento_iterado = zeros(numero_iteraciones(2),columnas(2));
 uve_iterado           = zeros(numero_iteraciones(2),columnas(2));
 Ldif_iterado          = zeros(numero_iteraciones(2),columnas(2));
 
-Distancia_IZQ =1910;
+Distancia_IZQ =d1(3)-d1(2);
 D1_IZQ = 806;
 D2_IZQ = Distancia_IZQ - D1_IZQ;
 e_IZQ            = e(1);
@@ -63,7 +63,6 @@ h2_IZQ = 803;
 h1_IZQ = 796+10;
 
 AlturaRayo_IZQ   = ((h2_IZQ-h1_IZQ)/Distancia_IZQ)*D1_IZQ + h1_IZQ;
-
 
 Flecha_IZQ  = (D1_IZQ*D2_IZQ)/(2*K*R0);
 Despejamiento_IZQ      = Flecha_IZQ + e_IZQ - AlturaRayo_IZQ;
