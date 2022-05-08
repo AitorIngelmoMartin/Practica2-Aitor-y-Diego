@@ -93,9 +93,10 @@ end
  U_equipos_3 = sum(U_equipos_3);
  U_equipos_4 = sum(U_equipos_4);
  
- q_calculado_total = [q_calculado(1,:) + U_equipos_2; q_calculado(2,:) + U_equipos_3; q_calculado(3,:) + U_equipos_4 ];
- 
-hold on
+ q_calculado_total = [q_calculado(1,:)*2; q_calculado(2,:)*3; q_calculado(3,:)*4 ];
+ U_calculado_total = [q_calculado_total(1,:) + U_equipos_2; q_calculado_total(2,:) + U_equipos_3; q_calculado_total(3,:) + U_equipos_4 ];
+
+ hold on
 plot(q_calculado_total(1,:))
 plot(q_calculado_total(2,:))
 plot(q_calculado_total(3,:))

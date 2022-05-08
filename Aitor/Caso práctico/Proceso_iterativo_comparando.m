@@ -8,9 +8,7 @@ R_punto_medio =40.141518816862316;
 
 f         = 23e9;
 lambda    = 3e8/(f);
-Distancia_total = 55.1e3;
-
-potencia =0;
+Distancia_total = 54.96e3;
 
 Vanos_maximos    = 4;
 for i=1:(Vanos_maximos)
@@ -21,7 +19,6 @@ Distancia(:,1)      =[];
 Umbral_dataSheet = [-85 -81.5 -75 -72 -68.5 -64.5];
 Umbral_dataSheet = Umbral_dataSheet+2;
 Ptx_dBm          = [19.5 17.5 17 16.5 15.5 13.5];
-
  
 Lgas_dB = 0.16*((Distancia)/1000);
 Lt_dB   = 1.5;
@@ -60,11 +57,11 @@ C1 = (0.07^C0)  * (0.12^(1-C0));
 C2 = (0.855*C0) + 0.5446*(1-C0);
 C3 = (0.139*C0) + 0.043* (1-C0);
 
-MD_dB = Margen_dBm;
+MD_dB_alcatel = Margen_dBm;
 
 for iteracion=1:numero_iteraciones
     for tramo=1:numero_tramos
-      logaritmo(tramo,iteracion) = log10(MD_dB(tramo,iteracion)/(F_001(tramo)*C1));
+      logaritmo(tramo,iteracion) = log10(MD_dB_alcatel(tramo,iteracion)/(F_001(tramo)*C1));
     end
 end
 
@@ -93,7 +90,10 @@ end
  U_equipos_3 = sum(U_equipos_3);
  U_equipos_4 = sum(U_equipos_4);
  
- q_calculado_total_alcatel = [q_calculado(1,:) + U_equipos_2; q_calculado(2,:) + U_equipos_3; q_calculado(3,:) + U_equipos_4 ];
+
+ q_calculado_total = [q_calculado(1,:)*2; q_calculado(2,:)*3; q_calculado(3,:)*4 ];
+ U_calculado_total_alcatel = [q_calculado_total(1,:) + U_equipos_2; q_calculado_total(2,:) + U_equipos_3; q_calculado_total(3,:) + U_equipos_4 ];
+
  
 %  MOTOROLA 
 %  -----------------------------------------------------------------------
@@ -153,11 +153,11 @@ C1 = (0.07^C0)  * (0.12^(1-C0));
 C2 = (0.855*C0) + 0.5446*(1-C0);
 C3 = (0.139*C0) + 0.043* (1-C0);
 
-MD_dB = Margen_dBm
+MD_dB_motorola = Margen_dBm
 
 for iteracion=1:numero_iteraciones
     for tramo=1:numero_tramos
-      logaritmo(tramo,iteracion) = log10(MD_dB(tramo,iteracion)/(F_001(tramo)*C1));
+      logaritmo(tramo,iteracion) = log10(MD_dB_motorola(tramo,iteracion)/(F_001(tramo)*C1));
     end
 end
 
@@ -186,7 +186,10 @@ end
  U_equipos_3 = sum(U_equipos_3);
  U_equipos_4 = sum(U_equipos_4);
  
- q_calculado_total_motorola = [q_calculado(1,:) + U_equipos_2; q_calculado(2,:) + U_equipos_3; q_calculado(3,:) + U_equipos_4 ];
+
+ q_calculado_total = [q_calculado(1,:)*2; q_calculado(2,:)*3; q_calculado(3,:)*4 ];
+ U_calculado_total_motorola = [q_calculado_total(1,:) + U_equipos_2; q_calculado_total(2,:) + U_equipos_3; q_calculado_total(3,:) + U_equipos_4 ];
+
  
 %  Eclipse
 % ------------------------------------------------------------------------
@@ -249,11 +252,11 @@ C1 = (0.07^C0)  * (0.12^(1-C0));
 C2 = (0.855*C0) + 0.5446*(1-C0);
 C3 = (0.139*C0) + 0.043* (1-C0);
 
-MD_dB = Margen_dBm
+MD_dB_eclipse = Margen_dBm
 
 for iteracion=1:numero_iteraciones
     for tramo=1:numero_tramos
-      logaritmo(tramo,iteracion) = log10(MD_dB(tramo,iteracion)/(F_001(tramo)*C1));
+      logaritmo(tramo,iteracion) = log10(MD_dB_eclipse(tramo,iteracion)/(F_001(tramo)*C1));
     end
 end
 
@@ -282,14 +285,13 @@ end
  U_equipos_3 = sum(U_equipos_3);
  U_equipos_4 = sum(U_equipos_4);
  
- q_calculado_total_eclipse= [q_calculado(1,:) + U_equipos_2; q_calculado(2,:) + U_equipos_3; q_calculado(3,:) + U_equipos_4 ];
+  q_calculado_total = [q_calculado(1,:)*2; q_calculado(2,:)*3; q_calculado(3,:)*4 ];
+  U_calculado_total_eclipse = [q_calculado_total(1,:) + U_equipos_2; q_calculado_total(2,:) + U_equipos_3; q_calculado_total(3,:) + U_equipos_4 ];
 
- % hold on
-% plot(q_calculado_total(1,:))
-% plot(q_calculado_total(2,:))
-% plot(q_calculado_total(3,:))
-% hold off
-% 
-% title("Indisponibilidad total teórica");
-% xlabel("Modulación");ylabel("valor q");
-% legend("2 vanos","3 vanos","4 vanos");
+  
+%  for tramo = 1:numero_tramos 
+%     for iteracion=1:(numero_iteraciones)
+%         Fq_calculado_dB_eclipse(iteracion,:) = F_001*C1*(q_calculado_total_eclipse(tramo,iteracion).^(-(C2+C3*log10(q_calculado_total_eclipse(tramo,iteracion)))));
+%     end
+%  end 
+
