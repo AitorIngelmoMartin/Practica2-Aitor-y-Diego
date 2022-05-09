@@ -1,6 +1,5 @@
 clc;clear;close all;
 
-
 MTBF = 175320; %En horas
 MTTR = 24;
 G_dB = 43.6;
@@ -31,21 +30,21 @@ numero_tramos       = longitud_2(1,2);
 
 for iteracion=1:numero_iteraciones
     for tramo=1:numero_tramos
-        Prx_dBm(tramo,iteracion) = Ptx_dBm(iteracion)  + G_dB - Lt_dB - Lbf_dB(tramo) - Lgas_dB(tramo) + G_dB - Lt_dB -2
+        Prx_dBm(tramo,iteracion) = Ptx_dBm(iteracion)  + G_dB - Lt_dB - Lbf_dB(tramo) - Lgas_dB(tramo) + G_dB - Lt_dB -2;
     end
 end
 
-Margen_dBm       = Prx_dBm - Umbral_dataSheet
+Margen_dBm       = Prx_dBm - Umbral_dataSheet;
  
 f        = f/(1e9);Distancia = Distancia/1000;
 K_lluvia = 0.1286;
 Alpha    = 1.0214;     
  
-R_001_total = R_punto_medio
-Gamma_r     = K_lluvia*(R_001_total.^(Alpha)) %dB/Km
-Deff        = (Distancia)./(0.477*(Distancia.^0.633)*(R_001_total.^(0.073*Alpha))*(f^(0.123))-10.579*(1-exp(-0.024*Distancia))) %Km
+R_001_total = R_punto_medio;
+Gamma_r     = K_lluvia*(R_001_total.^(Alpha)); %dB/Km
+Deff        = (Distancia)./(0.477*(Distancia.^0.633)*(R_001_total.^(0.073*Alpha))*(f^(0.123))-10.579*(1-exp(-0.024*Distancia))); %Km
 
-F_001     = Gamma_r .* Deff % dB
+F_001     = Gamma_r .* Deff; % dB
 
 if(f>=10)
   C0 = 0.12+0.4*log10((f/10)^0.8);
@@ -57,7 +56,7 @@ C1 = (0.07^C0)  * (0.12^(1-C0));
 C2 = (0.855*C0) + 0.5446*(1-C0);
 C3 = (0.139*C0) + 0.043* (1-C0);
 
-MD_dB_alcatel = Margen_dBm;
+MD_dB_alcatel = Margen_dBm
 
 for iteracion=1:numero_iteraciones
     for tramo=1:numero_tramos
@@ -95,18 +94,10 @@ end
  U_calculado_total_alcatel = [q_calculado_total(1,:) + U_equipos_2; q_calculado_total(2,:) + U_equipos_3; q_calculado_total(3,:) + U_equipos_4 ];
 
  
-%  MOTOROLA 
-%  -----------------------------------------------------------------------
-MTBF = 175320; %En horas
+%  MOTOROLA ---------------------------------------------------------------
+
 MTTR = 45;
-G_dB = 43.6;
-R_punto_medio =40.141518816862316;
 
-f         = 23e9;
-lambda    = 3e8/(f);
-Distancia_total = 55.1e3;
-
-Vanos_maximos    = 4;
 for i=1:(Vanos_maximos)
    Distancia(i) =  Distancia_total/(i);
 end
@@ -116,10 +107,6 @@ Umbral_dataSheet = [-85 -80.3 -76.4 -73.9 -70.9 -68.2];
 Ptx_dBm          = [19.5 17.5   22    17   17      15];
 Umbral_dataSheet = Umbral_dataSheet+2;
 
-Lgas_dB = 0.16*((Distancia)/1000);
-Lt_dB   = 1.5;
-Lbf_dB  = 20*log10((4*pi*Distancia)/lambda);
-
 longitud            = size(Ptx_dBm);
 numero_iteraciones  = longitud(1,2);
 longitud_2          = size(Distancia);
@@ -127,21 +114,18 @@ numero_tramos       = longitud_2(1,2);
 
 for iteracion=1:numero_iteraciones
     for tramo=1:numero_tramos
-        Prx_dBm(tramo,iteracion) = Ptx_dBm(iteracion)  + G_dB - Lt_dB - Lbf_dB(tramo) - Lgas_dB(tramo) + G_dB - Lt_dB -2
+        Prx_dBm(tramo,iteracion) = Ptx_dBm(iteracion)  + G_dB - Lt_dB - Lbf_dB(tramo) - Lgas_dB(tramo) + G_dB - Lt_dB -2;
     end
 end
 
-Margen_dBm       = Prx_dBm - Umbral_dataSheet
+Margen_dBm       = Prx_dBm - Umbral_dataSheet;
  
-f        = f/(1e9);Distancia = Distancia/1000;
-K_lluvia = 0.1286;
-Alpha    = 1.0214;     
- 
-R_001_total = R_punto_medio
-Gamma_r     = K_lluvia*(R_001_total.^(Alpha)) %dB/Km
-Deff        = (Distancia)./(0.477*(Distancia.^0.633)*(R_001_total.^(0.073*Alpha))*(f^(0.123))-10.579*(1-exp(-0.024*Distancia))) %Km
 
-F_001     = Gamma_r .* Deff % dB
+R_001_total = R_punto_medio;
+Gamma_r     = K_lluvia*(R_001_total.^(Alpha)); %dB/Km
+Deff        = (Distancia)./(0.477*(Distancia.^0.633)*(R_001_total.^(0.073*Alpha))*(f^(0.123))-10.579*(1-exp(-0.024*Distancia))); %Km
+
+F_001     = Gamma_r .* Deff; % dB
 
 if(f>=10)
   C0 = 0.12+0.4*log10((f/10)^0.8);
@@ -174,7 +158,6 @@ for iteracion=1:(numero_iteraciones)
 end
  q_calculado = 10.^x;
  q_calculado = transpose(q_calculado);
-
   
  U_equipo = (MTTR/MTBF)*100;
  
@@ -191,21 +174,10 @@ end
  U_calculado_total_motorola = [q_calculado_total(1,:) + U_equipos_2; q_calculado_total(2,:) + U_equipos_3; q_calculado_total(3,:) + U_equipos_4 ];
 
  
-%  Eclipse
-% ------------------------------------------------------------------------
+%  Eclipse ----------------------------------------------------------------
 
-MTBF = 175320; %En horas
 MTTR = 36;
-G_dB = 43.6;
-R_punto_medio =40.141518816862316;
 
-f         = 23e9;
-lambda    = 3e8/(f);
-Distancia_total = 55.1e3;
-
-potencia =0;
-
-Vanos_maximos    = 4;
 for i=1:(Vanos_maximos)
    Distancia(i) =  Distancia_total/(i);
 end
@@ -215,8 +187,7 @@ Umbral_dataSheet = [-85 -75.5 -75 -71 -70 -64.5];
 Ptx_dBm          = [19.5 17.5  17 16.5 15.5 13.5];
 Umbral_dataSheet = Umbral_dataSheet+2;
 
-Lgas_dB = 0.16*((Distancia)/1000);
-Lt_dB   = 1.5;
+
 Lbf_dB  = 20*log10((4*pi*Distancia)/lambda);
 
 longitud            = size(Ptx_dBm);
@@ -226,21 +197,21 @@ numero_tramos       = longitud_2(1,2);
 
 for iteracion=1:numero_iteraciones
     for tramo=1:numero_tramos
-        Prx_dBm(tramo,iteracion) = Ptx_dBm(iteracion)  + G_dB - Lt_dB - Lbf_dB(tramo) - Lgas_dB(tramo) + G_dB - Lt_dB -2
+        Prx_dBm(tramo,iteracion) = Ptx_dBm(iteracion)  + G_dB - Lt_dB - Lbf_dB(tramo) - Lgas_dB(tramo) + G_dB - Lt_dB -2;
     end
 end
 
-Margen_dBm       = Prx_dBm - Umbral_dataSheet
+Margen_dBm       = Prx_dBm - Umbral_dataSheet;
  
 f        = f/(1e9);Distancia = Distancia/1000;
 K_lluvia = 0.1286;
 Alpha    = 1.0214;     
  
-R_001_total = R_punto_medio
-Gamma_r     = K_lluvia*(R_001_total.^(Alpha)) %dB/Km
-Deff        = (Distancia)./(0.477*(Distancia.^0.633)*(R_001_total.^(0.073*Alpha))*(f^(0.123))-10.579*(1-exp(-0.024*Distancia))) %Km
+R_001_total = R_punto_medio;
+Gamma_r     = K_lluvia*(R_001_total.^(Alpha)); %dB/Km
+Deff        = (Distancia)./(0.477*(Distancia.^0.633)*(R_001_total.^(0.073*Alpha))*(f^(0.123))-10.579*(1-exp(-0.024*Distancia))); %Km
 
-F_001     = Gamma_r .* Deff % dB
+F_001     = Gamma_r .* Deff; % dB
 
 if(f>=10)
   C0 = 0.12+0.4*log10((f/10)^0.8);
@@ -285,13 +256,5 @@ end
  U_equipos_3 = sum(U_equipos_3);
  U_equipos_4 = sum(U_equipos_4);
  
-  q_calculado_total = [q_calculado(1,:)*2; q_calculado(2,:)*3; q_calculado(3,:)*4 ];
-  U_calculado_total_eclipse = [q_calculado_total(1,:) + U_equipos_2; q_calculado_total(2,:) + U_equipos_3; q_calculado_total(3,:) + U_equipos_4 ];
-
-  
-%  for tramo = 1:numero_tramos 
-%     for iteracion=1:(numero_iteraciones)
-%         Fq_calculado_dB_eclipse(iteracion,:) = F_001*C1*(q_calculado_total_eclipse(tramo,iteracion).^(-(C2+C3*log10(q_calculado_total_eclipse(tramo,iteracion)))));
-%     end
-%  end 
-
+q_calculado_total = [q_calculado(1,:)*2; q_calculado(2,:)*3; q_calculado(3,:)*4 ];
+U_calculado_total_eclipse = [q_calculado_total(1,:) + U_equipos_2; q_calculado_total(2,:) + U_equipos_3; q_calculado_total(3,:) + U_equipos_4 ];
