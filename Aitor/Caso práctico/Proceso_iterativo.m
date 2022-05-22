@@ -16,8 +16,7 @@ Vanos_maximos    = 4;
 for i=1:(Vanos_maximos)
    Distancia(i) =  Distancia_total/(i);
 end
-Distancia = fliplr(Distancia);
-Distancia(:,end)      =[];
+Distancia(:,1)      =[];
 
 Umbral_dataSheet = [-85 -81.5 -75 -72 -68.5 -64.5];
 Umbral_dataSheet = Umbral_dataSheet+2;
@@ -83,11 +82,26 @@ end
  q_calculado = 10.^x;
  q_calculado = transpose(q_calculado)
 
+  
+ U_equipo = (MTTR/MTBF)*100;
+ 
+ U_equipos_2 = [1.5 1.5]*U_equipo;
+ U_equipos_3 = [1.5 1 1.5]*U_equipo;
+ U_equipos_4 = [1.5 1 1 1.5]*U_equipo;
+ 
+ U_equipos_2 = sum(U_equipos_2);
+ U_equipos_3 = sum(U_equipos_3);
+ U_equipos_4 = sum(U_equipos_4);
+ 
+ q_calculado_total = [q_calculado(1,:)*2; q_calculado(2,:)*3; q_calculado(3,:)*4 ];
+ U_calculado_total = [q_calculado_total(1,:) + U_equipos_2; q_calculado_total(2,:) + U_equipos_3; q_calculado_total(3,:) + U_equipos_4 ];
+
  hold on
-plot(q_calculado(1,:))
-plot(q_calculado(2,:))
-plot(q_calculado(3,:))
+plot(q_calculado_total(1,:))
+plot(q_calculado_total(2,:))
+plot(q_calculado_total(3,:))
 hold off
 
+title("Indisponibilidad total teórica");
 xlabel("Modulación");ylabel("valor q");
-legend("4 vanos","3 vanos","2 vanos");
+legend("2 vanos","3 vanos","4 vanos");
