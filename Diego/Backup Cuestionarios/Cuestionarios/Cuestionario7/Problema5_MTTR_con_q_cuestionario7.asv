@@ -1,0 +1,234 @@
+% Se constituye un enlace radioeléctrico del modo siguiente:
+% 
+% Transmisor de 2 W
+% Terminales con Lt=2dB.
+% Antena directiva de ganancia 24 dBi.
+% La longitud del enlace es de 35 km y su frecuencia 18 GHz.
+% Receptor compuesto por un atenuador variable como protección frente a desvanecimientos y que requiere de al menos -96 dBm para extraer la información enviada.
+% MTBF de cada transceptor de 1.500.000 horas
+% 
+% Datos geográficos de las estaciones terminales
+%                                                Cota                Altura de la antena
+% ESTACIÓN TERMINAL 1    220m                          15m
+% ESTACIÓN TERMINAL 2    307m                            5m
+% 
+% Perfil geográfico entre estaciones terminales caracterizado por la presencia de las siguientes aristas agudas:
+%                     Distancia a la estación terminal 1     Cota
+% ARISTA 1                        8km                                 240m
+% ARISTA 2                      14km                                 240m
+% 
+% Datos: K=4/3; R0=6370 km; R0,01=32 mm/h.
+% 
+% Determinar el MTTR máximo asociado a cada transceptor para cumplir una indisponibilidad total de 0,1%
+
+clear;clc;
+
+f = 18e9;
+c=3e8;
+lambda= c/f;
+
+
+
+% Alturas, distancia y radio en metros
+
+d = 35e3; %En metros
+R0 =6370e3;
+k = 4/3;
+Re = R0*k;
+
+e = [220 240 240 307];
+a = [15 0 0 5];
+d1 = [0 8e3 14e3 d];
+d2 = d - d1;
+
+R_001 = 32; %mm/h
+UR = 0.1; %indisponiblidad total en porcentaje
+
+Ptx_W = 2;
+Ptx_dBm = 10*log10(Ptx_W/(1e-3));
+Umbral_dBm = -96;
+G_dBi = 24;
+Lt_dB = 2;
+
+MTBF = 1.5e6; %en horas
+% alpha_PH = 1.0818; %Para PH
+% k_PH = 0.07078;
+k_PV = 0.07708;
+alpha_PV = 1.0025;
+%---------------------------------------------------------------------------
+
+ %parámetros
+
+    flecha = d1.*d2/(2*Re);
+    altura_rayo = ((e(end)+a(end)-e(1)-a(1))/d) * d1 + e(1)+a(1);
+    despejamiento = e + flecha - altura_rayo;
+
+    R1 = sqrt(lambda*d1.*d2/d); %Altura del primer rayo de Fresnel
+    uve = sqrt(2)*despejamiento./R1;
+
+%--------------------------------------------------------------------------
+
+    %Despejamiento suficiente en obstaculo 1
+    
+    if(uve(2)<=-0.78)
+        if(uve(3)>-0.78)
+            "Despejamiento suficiente en obstaculo 1, solo presenta difracción el 2"
+             Lad_dB=6.9+20*log10(sqrt(((uve(3)-0.1)^2)+1)+uve(3)-0.1);
+        end
+    end
+
+    %Despejamiento suficiente en obstaculo 1
+    
+    if(uve(3)<=-0.78)
+        if(uve(2)>-0.78)
+            "Despejamiento suficiente en obstaculo 2, solo presenta difracción el 1"
+            Lad_dB=6.9+20*log10(sqrt(((uve(2)-0.1)^2)+1)+uve(2)-0.1);
+         end
+    end
+
+%---------------------------------------------------------------------------
+
+    if( ( (uve(2)<0) ||(uve(3)<0) ) && (abs(uve(2) - uve(3))<0.5) )
+        "Método uno, obstáculos parecidos"
+        %Para Ldif(uve'1)
+        do1_o2 = d1(3)-d1(2); %distancia entre obstaculos
+
+        flecha_1p = do1_o2*d1(2)/(2*Re);
+        altura_rayo_1p = ((a(1)+e(1)-e(3))*do1_o2/d1(3))+e(3);
+        despejamiento_1p = e(2) + flecha_1p - altura_rayo_1p;
+
+        R1_1p = sqrt(lambda*do1_o2*d1(2)/d1(3)); %Altura del primer rayo de Fresnel
+        uve_1p = sqrt(2)*(despejamiento_1p/R1_1p);
+
+        Ldif_p1_dB = 6.9 + 20*log10(sqrt((uve_1p-0.1)^2+1)+uve_1p-0.1);
+
+        %Para Ldif(uve'2)
+        do1_o2 = d1(3)-d1(2); %distancia entre obstaculos
+
+        flecha_2p = do1_o2*d2(3)/(2*Re);
+        altura_rayo_2p = ((a(end)+e(end)-e(2))*do1_o2/d2(2))+e(2);
+        despejamiento_2p = e(3) + flecha_2p - altura_rayo_2p;
+
+        R1_2p = sqrt(lambda*do1_o2*d2(3)/d2(2)); %Altura del primer rayo de Fresnel
+        uve_2p = sqrt(2)*(despejamiento_2p/R1_2p);
+
+        Ldif_p2_dB = 6.9 + 20*log10(sqrt((uve_2p-0.1)^2+1)+uve_2p-0.1);
+
+        %------------------------------------------------------------------
+
+        Lad_dB = Ldif_p1_dB + Ldif_p2_dB + 10*log10(d1(3)*d2(2)/(do1_o2*(d1(3)+d2(3))));
+    end
+
+    if( ( (uve(2)>0) && (uve(3)>0) ) && (abs(uve(2) -uve(3))>0.5) )
+        "Método dos, obsáculo dominante"
+
+        % Parámetros modificados
+
+        %Obstaculo 1 predominante
+        if(uve(2)>uve(3))
+            "Obstáculo 1 dominante"
+
+             do1_o2 = d1(3)-d1(2); %distancia entre obstaculos
+
+             flecha_2p = do1_o2*d2(3)/(2*Re);
+             altura_rayo_2p = ((a(end)+e(end)-e(2))*do1_o2/d2(2))+e(2);
+             despejamiento_2p = e(3) + flecha_2p - altura_rayo_2p;
+
+             R1_2p = sqrt(lambda*do1_o2*d2(3)/d2(2)); %Altura del primer rayo de Fresnel
+             uve_2p = sqrt(2)*(despejamiento_2p/R1_2p);
+  
+%-------------------------------------------------------------------------------------
+
+            tan_alfa = (d*do1_o2/(d1(2)*d2(3)))^(1/2);
+            alfa = atan(tan_alfa);
+            p = uve(2);
+            q = uve(3);
+            Tc = (12-20*log10(2/(1-(alfa/pi))))*(q/p)^(2*p);
+
+        if uve_2p<=-0.78
+
+             Ldif_p2_dB = 0;
+
+         else
+
+         Ldif_p2_dB = 6.9 + 20*log10(sqrt((uve_2p-0.1)^2+1)+uve_2p-0.1);
+
+         end
+
+         Ldif1_dB = 6.9 + 20*log10(sqrt((uve(2)-0.1)^2+1)+uve(2)-0.1);
+
+        end
+         Lad_dB = Ldif1_dB + Ldif_p2_dB - Tc;
+    end
+
+
+    %----------------------------------------------------------------------
+
+f = 18;
+
+%Paso 2
+
+R_001_alpha = R_001^alpha_PH;
+gamma_R = k_PH*R_001_alpha; % Atenuación específica (dB/Km)
+
+
+%Paso 3 en radioenlace terrenal
+
+d_eff = (d/1000)*1/(0.477*(d/1000)^0.633*R_001^(0.073*alpha_PH)*(f)^0.123 -(10.579*(1-exp(-0.024*(d/1000))))); % Correccion del rayo
+
+%Paso 4
+
+F_01 = gamma_R *d_eff; % En 1h/año la lluvia va a atenuar al menos F0.01
+% Si F0.01 = MD, sistema indisponible 1h/año. %indisponibilidad = 0.01,
+% %disponibilidad = 0.99
+
+%Paso 5 
+%Prx del atenuador variable
+
+ gamma_gases = 0.06;
+ Lgases_dB = gamma_gases*d/1000;
+
+ Lbf_dB = 20*log10(4*pi*d/lambda);
+ Lb_dB =Lbf_dB + Lgases_dB + Lad_dB;
+ 
+%PIRE_dBm = Ptx_dBm + G_dBi - Lt_dB; 
+% Prec_atenuador = Umbral_dBm + MD_dB = Ptx_dBm + G_dBi - Lt_dB - Lb_dB + G_dBi - Lt_dB;
+MD_dB = Ptx_dBm - Umbral_dBm + G_dBi - Lt_dB - Lb_dB + G_dBi - Lt_dB;
+F_ll= MD_dB;
+
+Prec_atenuador =  Ptx_dBm + G_dBi - Lt_dB - Lb_dB - F_ll + G_dBi - Lt_dB;
+
+if (f>=10)
+    C0 = 0.12 + 0.4*log10((f/10)^0.8);
+else
+    C0 = 0.12;
+end
+
+C1 = (0.07^C0)*(0.12^(1-C0));
+C2 = (0.855*C0)+0.546*(1-C0);
+C3 = (0.139*C0)+0.043*(1-C0);
+
+% Fq = F_01*C1*q^(-C2-C3*log10(q)); %minimo de atenuacion de la luvia en el q% del año
+
+ecuacion = [C3 C2 log10(F_ll/(F_01*C1))];
+x = roots(ecuacion);
+q1 = abs(10^x(1));
+q2 = abs(10^x(2));
+
+if(q1>q2)
+    q = q1;
+else
+    q = q2;
+end
+
+
+
+%--------------------------------------------------------
+
+
+UR_lluvia = q; %indisponibilidad por lluvia
+% UR_equipos = 2*(MTTR/MTBF)*100;
+% UR_total = UR_lluvia + UR_equipos = q +2*MTTR/MTBF *100;
+
+MTTR = (MTBF*(UR-q))/(2*100);
+
