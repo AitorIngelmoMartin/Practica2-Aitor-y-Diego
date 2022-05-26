@@ -11,8 +11,8 @@ clc;clear;close all;
  f_up     = 14e9;
  f_down   = 12e9;
  
-G_T_satelite = 3;
-T_antena     = 93;
+G_T_satelite_dB = 3;
+T_antena        = 93;
 
 C_N0_total_dB   = 76;
 Distancia_up    = 38500e3;
@@ -70,7 +70,5 @@ Incremento_C_N = -10*log10(10^(-L/10)-1)
 C_N0_up    = 1/((10^(-C_N0_total_dB/10))-(10^(-C_N0_down_dB/10)));
 C_N0_up_dB = 10*log10(C_N0_up)
 
-
-PIRE_cielo_claro     = C_N0_total_dB + Lbf_up_dB + Margen + Lad_up_dB - G_T_receptor_dB + 10*log10(Boltzmann) + Incremento_C_N
-% PIRE_desvanecimiento = C_N0_total + Lbf_up_dB + Margen - G_T_receptor_dB + 10*log10(Boltzmann) - F_001_up;
-    % No he añadido Lad.
+PIRE_cielo_claro     = C_N0_up_dB + Lbf_up_dB + Margen + Lad_up_dB - G_T_satelite_dB + 10*log10(Boltzmann);
+PIRE_max = PIRE_cielo_claro + F_001_up; %sumando las perdidas maximas por lluvia

@@ -71,7 +71,7 @@ PIRE_down  = PIRE_saturacion_dBw +10*log10(BW_portadora/sum(BW_portadora));
 
 
 C_N0_up   = PIRE_up   + IBO_tpdr - Lbf_up_dB - Lgas_up_dB   - Margen_up_dB   + G_T_sat_dB     - 10*log10(Boltzmann);
-C_N0_down = PIRE_down + OBO_tpdr - Lbf_up_dB - Lgas_down_dB - Margen_down_dB + G_T_terrena_dB - 10*log10(Boltzmann);
+C_N0_down = PIRE_down + OBO_tpdr - Lbf_down_dB - Lgas_down_dB - Margen_down_dB + G_T_terrena_dB - 10*log10(Boltzmann);
 
 BW_guarda = 2*(1.5e6);
 BW_total_portadoras = 36e6 - BW_guarda;
