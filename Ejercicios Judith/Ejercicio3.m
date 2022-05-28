@@ -67,8 +67,8 @@ L = C_N0_total_dB - C_N0_down_dB % Degradacion
 % desvanecimiento para cumplir con la normativa de calidad?
 
 Incremento_C_N = -10*log10(10^(-L/10)-1)
-C_N0_up    = 1/((10^(-C_N0_total_dB/10))-(10^(-C_N0_down_dB/10)));
-C_N0_up_dB = 10*log10(C_N0_up)
+C_N0_up        = 1/((10^(-C_N0_total_dB/10))-(10^(-C_N0_down_dB/10)));
+C_N0_up_dB     = 10*log10(C_N0_up)
 
-PIRE_cielo_claro     = C_N0_up_dB + Lbf_up_dB + Margen + Lad_up_dB - G_T_satelite_dB + 10*log10(Boltzmann);
-PIRE_max = PIRE_cielo_claro + F_001_up; %sumando las perdidas maximas por lluvia
+PIRE_cielo_claro = C_N0_up_dB + Lbf_up_dB + Margen + Lad_up_dB - G_T_satelite_dB + 10*log10(Boltzmann);
+PIRE_max         = PIRE_cielo_claro + F_001_up; %sumando las perdidas maximas por lluvia
