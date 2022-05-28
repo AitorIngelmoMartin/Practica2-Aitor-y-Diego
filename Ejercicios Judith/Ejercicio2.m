@@ -42,9 +42,7 @@ Roll_off     = (BW_portadora)/((Rb*(1/FEC))/(log2(M)))- 1;
 % dispositivos UPC y CAG adecuados a cada zona climática.
 
 %       Parámetros de transmisiñon son PIREet y G/Tet, que dan la C/N0total_minima
-Eb_No_total   = 10^(Eb_No_total_dB/10);
-C_N0_total    = Eb_No_total*Rb;
-C_N0_total_dB = 10*log10(C_N0_total);
+C_N0_total_dB = Eb_No_total_dB + 10*log10(Rb)
 
 Lbf_down_dB  = 20*log10((4*pi*Distancia)/(3e8/f_descendente));
 C_N0_down_dB = PIRE_satelite_dBw - Lbf_down_dB - Lad_down_dB - Margen_down_dB + G_T_estacion - 10*log10(Boltzmann);
