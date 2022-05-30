@@ -6,10 +6,7 @@ Rb              = 34e6;
 BW_total        = 36e6;
 BW_guarda       = 0.15e6;
 M               = 16;
-% LLuvia estación A
-F_001_A = 9;
-%LLuvia estación B
-F_001_B = 16;
+
 
 Eb_No_total_dB = 12;
  
